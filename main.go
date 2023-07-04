@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	_"github.com/izasoerya/RestAPI-Todo/router"
 )
 
 func main() {
