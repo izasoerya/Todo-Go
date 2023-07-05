@@ -6,7 +6,8 @@ import (
 )
 
 func TodoRoute(route fiber.Router) {
-	route.Get("", controller.SearchTodos)
+	route.Get("/:id", controller.SearchTodosGet)
+	route.Get("", controller.SearchTodosRequest)
 	route.Post("", controller.CreateTodos)
 
 }

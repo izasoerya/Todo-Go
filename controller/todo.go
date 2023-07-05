@@ -56,7 +56,7 @@ func CreateTodos(c *fiber.Ctx) error {
 	})
 }
 
-func SearchTodos(c *fiber.Ctx) error {
+func SearchTodosRequest(c *fiber.Ctx) error {
 	type Request struct {
 		Id string `json:"id"`
 	}
@@ -91,4 +91,33 @@ func SearchTodos(c *fiber.Ctx) error {
 	})
 }
 
+func SearchTodosGet(c *fiber.Ctx) error {
+	paramId := c.Params("id")
 
+	SearchID, err := strconv.Atoi(paramId)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "cannot convert to int",
+		})
+	}
+
+	for _, todo := range Todos {
+		if todo.Id == SearchID {
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{
+				"success": true,
+				"message": "found the id",
+				"data": fiber.Map{
+					"todo": todo,
+				},
+			})
+		}
+	}
+	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+		"success": false,
+		"message": "cant find id",
+		"data": fiber.Map{
+			"todo": Todos,
+		},
+	})
+}
