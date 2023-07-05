@@ -24,6 +24,19 @@ var Todos = []*todo{
 		Title:     "JS tutorial",
 		Completed: true,
 	},
+	{
+		Id:        3,
+		Title:     "C# tutorial",
+		Completed: true,
+	},
+}
+
+func GetAllTodos(c *fiber.Ctx) error {
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": fiber.Map{
+			"todo": Todos,
+		},
+	})
 }
 
 func CreateTodos(c *fiber.Ctx) error {
@@ -120,4 +133,37 @@ func SearchTodosGet(c *fiber.Ctx) error {
 			"todo": Todos,
 		},
 	})
+}
+
+func DeleteTodosRequest(c *fiber.Ctx) error {
+	type Request struct {
+		Id string `json:"id"`
+	}
+	var body Request
+	err := c.BodyParser(&body)
+
+	if err != nil {
+		fmt.Println(err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "bad request search todo",
+		})
+	}
+
+	SearchID, _ := strconv.Atoi(body.Id)
+	for i, todo := range Todos {
+		if SearchID == todo.Id {
+			Todos = append(Todos[:i], Todos[i+1:]...)
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{
+				"success": true,
+				"message": "Successfully deleted",
+			})
+		}
+	}
+
+	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+		"success": false,
+		"message": "failed delete",
+	})
+
 }
