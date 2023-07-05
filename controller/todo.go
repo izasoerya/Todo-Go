@@ -137,7 +137,7 @@ func SearchTodosGet(c *fiber.Ctx) error {
 
 func DeleteTodos(c *fiber.Ctx) error {
 	type Request struct {
-		Id string `json:"id"`
+		Id int `json:"id"`
 	}
 	var body Request
 	err := c.BodyParser(&body)
@@ -150,7 +150,7 @@ func DeleteTodos(c *fiber.Ctx) error {
 		})
 	}
 
-	SearchID, _ := strconv.Atoi(body.Id)
+	SearchID := body.Id
 	for i, todo := range Todos {
 		if SearchID == todo.Id {
 			Todos = append(Todos[:i], Todos[i+1:]...)
@@ -189,9 +189,9 @@ func EditTodos(c *fiber.Ctx) error {
 
 	for i, todo := range Todos {
 		if EditID == todo.Id {
-			Todos[i].Id			= body.Id
-			Todos[i].Title 		= body.Title
-			Todos[i].Completed 	= body.Completed
+			Todos[i].Id = body.Id
+			Todos[i].Title = body.Title
+			Todos[i].Completed = body.Completed
 			return c.Status(fiber.StatusOK).JSON(fiber.Map{
 				"data": fiber.Map{
 					"todo": Todos,
