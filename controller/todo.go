@@ -135,7 +135,7 @@ func SearchTodosGet(c *fiber.Ctx) error {
 	})
 }
 
-func DeleteTodosRequest(c *fiber.Ctx) error {
+func DeleteTodos(c *fiber.Ctx) error {
 	type Request struct {
 		Id string `json:"id"`
 	}
@@ -165,5 +165,43 @@ func DeleteTodosRequest(c *fiber.Ctx) error {
 		"success": false,
 		"message": "failed delete",
 	})
+}
 
+func EditTodos(c *fiber.Ctx) error {
+	paramID := c.Params("id")
+	type Request struct {
+		Id        int    `json:"id"`
+		Title     string `json:"title"`
+		Completed bool   `json:"completed"`
+	}
+
+	var body Request
+	err := c.BodyParser(&body)
+	if err != nil {
+		fmt.Println(err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "bad request edit todo",
+		})
+	}
+
+	EditID, _ := strconv.Atoi(paramID)
+
+	for i, todo := range Todos {
+		if EditID == todo.Id {
+			Todos[i].Id			= body.Id
+			Todos[i].Title 		= body.Title
+			Todos[i].Completed 	= body.Completed
+			return c.Status(fiber.StatusOK).JSON(fiber.Map{
+				"data": fiber.Map{
+					"todo": Todos,
+				},
+			})
+		}
+	}
+
+	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+		"success": false,
+		"message": "failed edit",
+	})
 }
