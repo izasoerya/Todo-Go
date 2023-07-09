@@ -52,6 +52,9 @@ func CreateTodos(c *fiber.Ctx) error {
 	data := new(models.Todo)
 	err := c.BodyParser(&data)
 
+	fmt.Print("Error : ")
+	fmt.Println(data)
+
 	if err != nil {
 		fmt.Println(err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -61,7 +64,7 @@ func CreateTodos(c *fiber.Ctx) error {
 	}
 
 	data.ID = nil
-	dataCompleted := false 
+	dataCompleted := false
 	data.Completed = &dataCompleted
 	data.CreatedAt = time.Now()
 	data.UpdatedAt = time.Now()
@@ -225,5 +228,30 @@ func EditTodos(c *fiber.Ctx) error {
 		"data": fiber.Map{
 			"todo": todo,
 		},
+	})
+}
+
+func InputHTML(c *fiber.Ctx) error {
+	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
+	input := c.FormValue("inputTodo")
+	data := new(models.Todo)
+
+	data.ID = nil
+	data.Title = &input
+	dataCompleted := false
+	data.Completed = &dataCompleted
+	data.CreatedAt = time.Now()
+	data.UpdatedAt = time.Now()
+
+	result, _ := todoCollection.InsertOne(c.Context(), data)
+
+	todo := &models.Todo{}
+	query := bson.D{{Key: "_id", Value: result.InsertedID}}
+
+	todoCollection.FindOne(c.Context(), query).Decode(todo)
+
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"success": true,
+		"message": "todo created!",
 	})
 }
