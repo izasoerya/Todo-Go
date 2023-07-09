@@ -253,5 +253,6 @@ func InputHTML(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"success": true,
 		"message": "todo created!",
+		"action":  c.Redirect("localhost:3000/app"),
 	})
 }
