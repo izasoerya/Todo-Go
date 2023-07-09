@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/template/html/v2"
 	"github.com/izasoerya/RestAPI-Todo/config"
 	"github.com/izasoerya/RestAPI-Todo/router"
 
@@ -31,7 +32,10 @@ func setupRoutes(app *fiber.App) {
 }
 
 func main() {
-	app := fiber.New()
+	engine := html.New("./views", ".html")		
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 	app.Use(logger.New())
 
 	err := godotenv.Load()
@@ -41,6 +45,10 @@ func main() {
 	config.ConnectDB()
 
 	setupRoutes(app)
+
+	app.Get("/app", func(c *fiber.Ctx) error {
+		return c.Render("index", fiber.Map{})
+	})
 
 	err = app.Listen(":3000")
 	if err != nil {

@@ -61,8 +61,8 @@ func CreateTodos(c *fiber.Ctx) error {
 	}
 
 	data.ID = nil
-	f := false
-	data.Completed = &f
+	dataCompleted := false 
+	data.Completed = &dataCompleted
 	data.CreatedAt = time.Now()
 	data.UpdatedAt = time.Now()
 
