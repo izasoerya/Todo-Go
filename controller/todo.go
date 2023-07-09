@@ -15,9 +15,7 @@ import (
 
 func GetAllTodos(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
-
 	query := bson.D{{}}
-
 	cursor, err := todoCollection.Find(c.Context(), query)
 
 	if err != nil {
@@ -104,9 +102,7 @@ func SearchTodosGet(c *fiber.Ctx) error {
 	}
 
 	todo := &models.Todo{}
-
 	query := bson.D{{Key: "_id", Value: SearchID}}
-
 	err = todoCollection.FindOne(c.Context(), query).Decode(todo)
 
 	if err != nil {
@@ -162,6 +158,9 @@ func DeleteTodos(c *fiber.Ctx) error {
 
 func EditTodos(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
+	c.JSON(fiber.Map{
+		"created": false,
+	})
 	paramID := c.Params("id")
 
 	id, err := primitive.ObjectIDFromHex(paramID)
@@ -254,5 +253,6 @@ func InputHTML(c *fiber.Ctx) error {
 		"success": true,
 		"message": "todo created!",
 		"action":  c.Redirect("localhost:3000/app"),
+		"created": true,
 	})
 }
