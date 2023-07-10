@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<style>
-    .center {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
 <script src="/static/js/popup.js"></script>
 
 <head>
+    <link rel="stylesheet" href="style.css">
     <h1 style="text-align: center;">
         Ihza Surya Todo's App
     </h1>
@@ -16,11 +10,14 @@
 <body style="text-align: center;">
     <br><br><br><br><br>
     <form action="api/Todos/save" method="POST"> 
+        <div id="error-message"></div>
         <div>
             <p><label>Input Todo Here</label></p>
-            <p><input type="text" name="inputTodo"></p> 
+            <p><input type="text" name="inputTodos" onkeydown="createTodo()"></p> 
             <br>
-            <button type="button" onclick="showNotification()">Show Notification</button>
+            <button style="background-color: aliceblue; border-radius: 20px; padding: 5px;" 
+                type="button" onclick="ShowNotification()"> Show Notification
+            </button>
         </div>
     </form>
 </body>
