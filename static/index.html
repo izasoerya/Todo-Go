@@ -2,8 +2,8 @@
 <script src="/static/js/popup.js"></script>
 
 <head>
-    <link rel="stylesheet" href="style.css">
-    <h1 style="text-align: center;">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <h1>
         Ihza Surya Todo's App
     </h1>
 </head>
@@ -13,10 +13,10 @@
         <div id="error-message"></div>
         <div>
             <p><label>Input Todo Here</label></p>
-            <p><input type="text" name="inputTodos" onkeydown="createTodo()"></p> 
+            <p><input type="text" name="inputTodos" onkeydown="handleKeyDown(event)"></p>
             <br>
-            <button style="background-color: aliceblue; border-radius: 20px; padding: 5px;" 
-                type="button" onclick="ShowNotification()"> Show Notification
+            <button style="background-color: aliceblue; border-radius: 300px; padding: 10px;" 
+                type="button" onclick="createTodo()"> Show Notification
             </button>
         </div>
     </form>
