@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<script src="/static/js/popup.js"></script>
-
+<html>
 <head>
+    <script src="/static/js/popup.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
-    <h1>
-        Ihza Surya Todo's App
-    </h1>
 </head>
-<body style="text-align: center;">
-    <br><br><br><br><br>
-    <form action="api/Todos/save" method="POST"> 
-        <div id="error-message"></div>
-        <div>
-            <p><label>Input Todo Here</label></p>
-            <p><input type="text" name="inputTodos" onkeydown="handleKeyDown(event)"></p>
-            <br>
-            <button style="background-color: aliceblue; border-radius: 300px; padding: 10px;" 
-                type="button" onclick="createTodo()"> Show Notification
+<body>
+    <div class="centerTitle">Ihza Surya Todo's App</div>
+    <b1>
+        <div class="centerForm">
+            <form action="api/Todos/save" method="POST">
+                <div>
+                    <p><label>Input Todo Here</label></p>
+                    <p><input type="text" name="createTodo" onkeydown="handleKeyDown(event)"></p>
+                </div>
+            </form>
+            <button style="background-color: aliceblue; border-radius: 300px; padding: 10px;"
+                type="button" onclick="createTodo()">Show Notification
             </button>
         </div>
-    </form>
+    </b1>
 </body>
-
 </html>
