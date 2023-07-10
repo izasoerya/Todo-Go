@@ -32,10 +32,11 @@ func setupRoutes(app *fiber.App) {
 }
 
 func main() {
-	engine := html.New("./views", ".html")
+	engine := html.New("./static", ".html")
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
+	app.Static("/static", "./static")
 	app.Use(logger.New())
 
 	err := godotenv.Load()
