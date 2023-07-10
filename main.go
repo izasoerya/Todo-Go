@@ -32,22 +32,24 @@ func setupRoutes(app *fiber.App) {
 }
 
 func main() {
-	engine := html.New("./static", ".html")
+	engine := html.New("./static", ".html")		//Render HTML file
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
 	app.Static("/static", "./static")
-	app.Use(logger.New())
 
-	err := godotenv.Load()
+	app.Use(logger.New())		//Logger
+
+	err := godotenv.Load()		//Init .env
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+	
 	config.ConnectDB()
 
 	setupRoutes(app)
 
-	app.Get("/app", func(c *fiber.Ctx) error {
+	app.Get("/app", func(c *fiber.Ctx) error {		//set HTML in /app
 		return c.Render("index", fiber.Map{})
 	})
 
