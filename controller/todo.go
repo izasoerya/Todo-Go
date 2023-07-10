@@ -230,14 +230,14 @@ func EditTodos(c *fiber.Ctx) error {
 	})
 }
 
-func InputHTML(c *fiber.Ctx) error {
+func CreateTodoPage(c *fiber.Ctx) error {
 	input := c.FormValue("inputTodos")
-	var todo models.Todo
-	todo.Title = &input
+	
+	todoTitle := models.Todo{Title: &input}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"data": fiber.Map{
-			"title": *todo.Title,
+			"title": todoTitle,
 		},
 		"action": c.Redirect("localhost:3000/api/Todos"),
 	})
