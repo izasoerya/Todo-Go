@@ -232,8 +232,9 @@ func EditTodos(c *fiber.Ctx) error {
 
 func InputHTML(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
-	input := c.FormValue("inputTodo")
+	input := c.FormValue("inputTodos")
 	data := new(models.Todo)
+	fmt.Println(input)
 
 	data.ID = nil
 	data.Title = &input
@@ -248,11 +249,10 @@ func InputHTML(c *fiber.Ctx) error {
 	query := bson.D{{Key: "_id", Value: result.InsertedID}}
 
 	todoCollection.FindOne(c.Context(), query).Decode(todo)
-
+	
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"success": true,
-		"message": "todo created!",
-		"action":  c.Redirect("localhost:3000/app"),
-		"created": true,
+		"message": "todo created",
+		"action": c.Redirect("localhost:3000/app"),
 	})
 }
