@@ -11,5 +11,6 @@ func TodoRoute(route fiber.Router) {
 	route.Post("", controller.CreateTodos)
 	route.Delete("/:id", controller.DeleteTodos)
 	route.Put("/:id", controller.EditTodos)
-	route.Post("/:save", controller.InputHTML)
+	
+	route.Post("/:createTodo", controller.CreateTodoPage)
 }
