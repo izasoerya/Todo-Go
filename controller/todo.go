@@ -44,51 +44,6 @@ func GetAllTodos(c *fiber.Ctx) error {
 	})
 }
 
-func CreateTodos(c *fiber.Ctx) error {
-	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
-
-	data := new(models.Todo)
-	err := c.BodyParser(&data)
-
-	fmt.Print("Error : ")
-	fmt.Println(data)
-
-	if err != nil {
-		fmt.Println(err)
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"success": false,
-			"message": "bad request create todo",
-		})
-	}
-
-	data.ID = nil
-	dataCompleted := false
-	data.Completed = &dataCompleted
-	data.CreatedAt = time.Now()
-	data.UpdatedAt = time.Now()
-
-	result, err := todoCollection.InsertOne(c.Context(), data)
-
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"success": false,
-			"message": "Cannot insert todo",
-			"error":   err,
-		})
-	}
-
-	// get the inserted data
-	todo := &models.Todo{}
-	query := bson.D{{Key: "_id", Value: result.InsertedID}}
-
-	todoCollection.FindOne(c.Context(), query).Decode(todo)
-
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"success": true,
-		"message": "todo created!",
-	})
-}
-
 func SearchTodosGet(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
 	paramId := c.Params("id")
@@ -231,14 +186,24 @@ func EditTodos(c *fiber.Ctx) error {
 }
 
 func CreateTodoPage(c *fiber.Ctx) error {
+	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
 	input := c.FormValue("inputTodos")
-	
-	todoTitle := models.Todo{Title: &input}
 
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"data": fiber.Map{
-			"title": todoTitle,
-		},
-		"action": c.Redirect("localhost:3000/api/Todos"),
+	data := new(models.Todo)
+
+	completed := false
+	data.ID = nil
+	data.Title = &input
+	data.Completed = &completed
+	data.CreatedAt = time.Now()
+	data.UpdatedAt = time.Now()
+
+	fmt.Println(data.Title)
+	todoCollection.InsertOne(c.Context(), data)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"message": input,
+		"action": c.RedirectBack("/app"),
 	})
 }
