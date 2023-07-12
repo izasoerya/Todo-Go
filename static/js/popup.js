@@ -1,23 +1,25 @@
+function buttonCreate() {
+  alert("Todo Created!")
+}
+function buttonDelete() {
+  alert("Todo Deleted!")
+}
+function buttonEdit() {
+  alert("Todo Edited!")
+}
+function buttonShow() {
+  alert("Todo Showed!")
+}
 function handleKeyDown(event) {
   if (event.keyCode === 13 || event.key === 'Enter') {
-    createTodo();
+      alert("Todo Created!")
   }
 }
-
-function createTodo() {
-  fetch('localhost:3000/app', {
-    method: 'POST',
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data)
-  })
-  new Notification("Todo Created!")
-  .catch(error => {
-    console.error('Error:', error);
-  });
+function readMessage() {
+  fetch('./api/Todos/createTodo')
+      .then((response) => response.json())
+  alert(response)
 }
-
 
 
   

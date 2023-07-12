@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script src="/static/js/popup.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
     <div class="centerTitle">Ihza Surya Todo's App</div>
-    <b1>
+        <form action="api/Todos/CreateTodoPage" method="POST" style="text-align: center;">
         <div class="centerForm">
-            <form action="api/Todos/createTodo" method="POST">
-                <div>
-                    <p><label>Input Todo Here</label></p>
-                    <p><input type="text" name="inputTodos" onkeydown="handleKeyDown(event)"></p>
-                </div>
-            </form>
-            <button style="background-color: aliceblue; border-radius: 300px; padding: 10px;"
-                type="button" onclick="createTodo()">Show Notification
-            </button>
+            <label>Input Todo Here</label> <br>
+            <input type="text" name="inputTodos" onkeydown="handleKeyDown(event)">
         </div>
-    </b1>
+        </form>
+    </div>
+    
+    <div style="text-align: center;">
+        <button style="background-color: aliceblue; border-radius: 30px; padding: 10px;" 
+            type="button" name="CreateTodo" onclick="buttonCreate()">CreateTodo
+        </button>
+        <button style="background-color: aliceblue; border-radius: 30px; padding: 10px;" 
+            type="button" name="DeleteTodo" onclick="buttonDelete()">DeleteTodo
+        </button>
+        <button style="background-color: aliceblue; border-radius: 30px; padding: 10px;" 
+            type="button" name="ShowTodo" onclick="buttonShow()">ShowTodo
+        </button>
+        <button style="background-color: aliceblue; border-radius: 30px; padding: 10px;" 
+            type="button" name="EditTodo" onclick="buttonEdit()">EditTodo
+        </button>
+    </div>
 </body>
+
 </html>
