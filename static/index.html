@@ -8,15 +8,15 @@
 
 <body>
     <div class="centerTitle">Ihza Surya Todo's App</div>
-        <form action="api/Todos/CreateTodoPage" method="POST" style="text-align: center;">
-        <div class="centerForm">
+        <form class="centerForm">
+        <div>
             <label>Input Todo Here</label> <br>
-            <input type="text" name="inputTodos" onkeydown="handleKeyDown(event)">
+            <input type="text" id="inputTodos">
         </div>
         </form>
     </div>
     
-    <div style="text-align: center;">
+    <div class="buttonPadd">
         <button style="background-color: aliceblue; border-radius: 30px; padding: 10px;" 
             type="button" name="CreateTodo" onclick="buttonCreate()">CreateTodo
         </button>

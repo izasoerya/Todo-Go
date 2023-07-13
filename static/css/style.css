@@ -8,3 +8,8 @@
     text-align: center;
     padding: 9% 0% 1% 0%;       /* ATAS KANAN BAWAH KIRI */
 }
+
+.buttonPadd {
+    text-align: center;
+    padding: 2% 1.8% 1% 0%;       /* ATAS KANAN BAWAH KIRI */
+}
