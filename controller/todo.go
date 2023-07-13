@@ -187,13 +187,23 @@ func EditTodos(c *fiber.Ctx) error {
 
 func CreateTodoPage(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
-	input := c.FormValue("inputTodos")
+	
+	type Request struct {
+		Title string `json:"title"`
+	}
+
+	var body Request 
+	err:= c.BodyParser(&body)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	data := new(models.Todo)
 
 	completed := false
 	data.ID = nil
-	data.Title = &input
+	data.Title = &body.Title
 	data.Completed = &completed
 	data.CreatedAt = time.Now()
 	data.UpdatedAt = time.Now()
@@ -203,7 +213,7 @@ func CreateTodoPage(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"success": true,
-		"message": input,
+		"message": body.Title,
 		"action": c.RedirectBack("/app"),
 	})
 }
