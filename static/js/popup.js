@@ -13,18 +13,18 @@ function buttonShow() {
 
 function handleKeyDown(event) {
 	if (event.keyCode === 13 || event.key === 'Enter') {
-	//DO SOMETHING
+		//! Do something special
 	}
 }
 
 function submitForm(iterHandler) {
 	const titleInput = document.getElementById('inputTodos');		//Get input from input HTML
-	const titleValue = titleInput.value;		
+	const inputValue = titleInput.value;		
 	
 	const createData = {
-		title: titleValue		//Make json {"title":titleValue}
+		title: inputValue			//* Make json {"title":titleValue}
 	};
-	const deleteData = 2
+	const deleteData = inputValue
 	const showData = 2
 	const editData = 2
 	
@@ -33,7 +33,7 @@ function submitForm(iterHandler) {
 			createHandler(createData)
 			break;
 		case "Delete":
-			createHandler(deleteData)
+			deleteHandler(deleteData)
 			break;
 		case "Edit":
 			createHandler(editData)
@@ -45,7 +45,7 @@ function submitForm(iterHandler) {
 }
 
 function createHandler(createData) {
-	fetch('/api/Todos/CreateTodoPage', {
+	fetch('/api/Todos/', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -57,5 +57,20 @@ function createHandler(createData) {
 	});
 }
 
+function deleteHandler(deleteData) {
+	fetch('/api/Todos/' + deleteData,  {
+		method: 'DELETE'
+	})
+}
+
+function editHandler(editData) {
+	fetch('/api/Todos/' + editData,  {
+		method: 'PUT'
+	})
+}
+
+function showHandler(deleteData) {
+	window.location.replace("http://localhost:3000/api/Todos/" + deleteData);
+}
 
   
