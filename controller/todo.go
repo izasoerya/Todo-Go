@@ -79,6 +79,7 @@ func SearchTodosGet(c *fiber.Ctx) error {
 func DeleteTodos(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
 	paramID := c.Params("id")
+	fmt.Println(paramID)
 
 	SearchID, err := primitive.ObjectIDFromHex(paramID)
 	if err != nil {
@@ -108,7 +109,10 @@ func DeleteTodos(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.SendStatus(fiber.StatusNoContent)
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
+        "message": "todo deleted",
+	})
 }
 
 func EditTodos(c *fiber.Ctx) error {
@@ -185,7 +189,7 @@ func EditTodos(c *fiber.Ctx) error {
 	})
 }
 
-func CreateTodoPage(c *fiber.Ctx) error {
+func CreateTodos(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
 	
 	type Request struct {
@@ -202,7 +206,7 @@ func CreateTodoPage(c *fiber.Ctx) error {
 	data := new(models.Todo)
 
 	completed := false
-	data.ID = nil
+	data.ID = nil		
 	data.Title = &body.Title
 	data.Completed = &completed
 	data.CreatedAt = time.Now()
