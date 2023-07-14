@@ -76,6 +76,39 @@ func SearchTodosGet(c *fiber.Ctx) error {
 	})
 }
 
+func CreateTodos(c *fiber.Ctx) error {
+	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
+	
+	type Request struct {
+		Title string `json:"title"`
+	}
+
+	var body Request 
+	err:= c.BodyParser(&body)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	data := new(models.Todo)
+
+	completed := false
+	data.ID = nil		
+	data.Title = &body.Title
+	data.Completed = &completed
+	data.CreatedAt = time.Now()
+	data.UpdatedAt = time.Now()
+
+	fmt.Println(data.Title)
+	todoCollection.InsertOne(c.Context(), data)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"message": body.Title,
+		"action": c.RedirectBack("/app"),
+	})
+}
+
 func DeleteTodos(c *fiber.Ctx) error {
 	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
 	paramID := c.Params("id")
@@ -186,38 +219,5 @@ func EditTodos(c *fiber.Ctx) error {
 		"data": fiber.Map{
 			"todo": todo,
 		},
-	})
-}
-
-func CreateTodos(c *fiber.Ctx) error {
-	todoCollection := config.MI.DB.Collection(os.Getenv("TODO_COLLECTION"))
-	
-	type Request struct {
-		Title string `json:"title"`
-	}
-
-	var body Request 
-	err:= c.BodyParser(&body)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	data := new(models.Todo)
-
-	completed := false
-	data.ID = nil		
-	data.Title = &body.Title
-	data.Completed = &completed
-	data.CreatedAt = time.Now()
-	data.UpdatedAt = time.Now()
-
-	fmt.Println(data.Title)
-	todoCollection.InsertOne(c.Context(), data)
-
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"success": true,
-		"message": body.Title,
-		"action": c.RedirectBack("/app"),
 	})
 }
