@@ -18,15 +18,15 @@ function handleKeyDown(event) {
 }
 
 function submitForm(iterHandler) {
-	const titleInput = document.getElementById('inputTodos');		//Get input from input HTML
+	const titleInput = document.getElementById('inputTodos');		//* GET input
 	const inputValue = titleInput.value;		
-	
-	const createData = {
-		title: inputValue			//* Make json {"title":titleValue}
+
+	const createData = {											//* Create data				
+		title: inputValue			
 	};
-	const deleteData = inputValue
-	const showData = 2
-	const editData = 2
+	const deleteData = inputValue									//* Delete data
+	const editData   = inputValue									//* Edit data
+	const showData	 = 2											//* Show data
 	
 	switch(iterHandler) {
 		case "Create":
@@ -36,7 +36,7 @@ function submitForm(iterHandler) {
 			deleteHandler(deleteData)
 			break;
 		case "Edit":
-			createHandler(editData)
+			editHandler(editData)
 			break;
 		case "Show":
 			createHandler(showData)
@@ -61,12 +61,23 @@ function deleteHandler(deleteData) {
 	fetch('/api/Todos/' + deleteData,  {
 		method: 'DELETE'
 	})
+	.catch(error => {
+		console.error('Error:', error);
+	});
 }
 
 function editHandler(editData) {
-	fetch('/api/Todos/' + editData,  {
-		method: 'PUT'
+	fetch('/app/edit',  {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(editData)		
 	})
+	.catch(error => {
+		console.error('Error:', error);
+	})
+	window.location.replace("http://localhost:3000/app/edit/")
 }
 
 function showHandler(deleteData) {

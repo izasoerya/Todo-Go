@@ -1,0 +1,10 @@
+.centerTitle {
+    font-size: 48px;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.centerForm {
+    text-align: center;
+    padding: 9% 0% 1% 0%;       /* ATAS KANAN BAWAH KIRI */
+}
