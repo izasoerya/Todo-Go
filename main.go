@@ -12,14 +12,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func setupRoutes(app *fiber.App) {
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(fiber.Map{
-			"success": true,
-			"message": "get to end point",
-		})
-	})
-
+func setupRoutes(app *fiber.App) {								//* Create home page
 	api := app.Group("/api")
 	api.Get("", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
@@ -27,19 +20,17 @@ func setupRoutes(app *fiber.App) {
 			"message": "api endpoint",
 		})
 	})
-
 	router.TodoRoute(api.Group("/todos"))
 }
 
 func main() {
-	engine := html.New("./static", ".html")		//Render HTML file
+	engine := html.New("./static", ".html")		
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
 	app.Static("/static", "./static")
 
 	app.Use(logger.New())		//Logger
-
 	err := godotenv.Load()		//Init .env
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -49,8 +40,11 @@ func main() {
 
 	setupRoutes(app)
 
-	app.Get("/app", func(c *fiber.Ctx) error {		//set HTML in /app
+	app.Get("/app", func(c *fiber.Ctx) error {					//* set HTML in /app
 		return c.Render("index", fiber.Map{})
+	})
+	app.Get("/app/edit", func(c *fiber.Ctx) error {					//* set HTML in /app
+		return c.Render("editTodo", fiber.Map{})
 	})
 
 	err = app.Listen(":3000")
