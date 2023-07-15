@@ -1,15 +1,7 @@
-function buttonCreate() {
-	submitForm("Create")
-}
-function buttonDelete() {
-	submitForm("Delete")
-}
-function buttonEdit() {
-	submitForm("Edit")
-}
-function buttonShow() {
-	submitForm("Show")
-}
+function buttonCreate() {submitForm("Create")}
+function buttonDelete() {submitForm("Delete")}
+function buttonEdit() 	{submitForm("Edit")	 }
+function buttonShow() 	{submitForm("Show")	 }
 
 function handleKeyDown(event) {
 	if (event.keyCode === 13 || event.key === 'Enter') {
@@ -67,14 +59,12 @@ function deleteHandler(deleteData) {
 	});
 }
 
-let editId = null;
 function editHandler(editData) {
-	editId = editData
 	window.location.replace("http://localhost:3000/app/edit/" + editData)
 }
 
 function showHandler(showData) {
-	window.location.replace("http://localhost:3000/api/Todos/" + deleteData);
+	window.location.replace("http://localhost:3000/api/Todos/" + showData);
 }
 
   
