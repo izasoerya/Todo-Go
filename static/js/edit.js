@@ -1,32 +1,38 @@
-function inputHandler() {
-    fetch('/app/edit', {
+function editTodoPage() {
+	const url = window.location.href;					//* parse url for get id
+	const urlParse = /\/app\/edit\/(.+)/;
+	const match = url.match(urlParse);
+	if (match) {
+		idEdit = match[1].toString();
+	}
+
+    const titleEdit = document.getElementById('titleEdit');
+    const editTitleValue = titleEdit.value;
+
+    const completeEdit = document.getElementById('completeEdit');
+    const editCompleteValue = completeEdit.checked;
+
+    const editData = {
+        title: editTitleValue,
+        completed: editCompleteValue
+    };
+
+	fetch('/api/Todos/' + idEdit, {
 		method: 'PUT',
 		headers: {
-		  'Content-Type': 'application/json'
+			'Content-Type': 'application/json'
 		},
-	})
-	.then(response => response.json())
-	.then(jsonData => {
-		// Handle the JSON data here
-		console.log(jsonData);
-		alert(jsonData);
+		body: JSON.stringify(editData)		//Convert JavaScript object to JSON string
+		})
+	.then(Response => {
+		if(Response.ok) {
+			window.location.href = '/app';
+		}
+		else {
+			console.error('Error:', Response);
+		}
 	})
 	.catch(error => {
-		// Handle any errors that occurred during the request
 		console.error('Error:', error);
 	});
-	  
-	
-	const completeEdit      = document.getElementById('completeEdit');		//Get input from input HTML
-	const editCompleteValue = completeEdit.value;	
-    const titleEdit         = document.getElementById('titleEdit');		//Get input from input HTML
-	const editTitleValue    = titleEdit.value;		
-    
-    const editData = {
-		title: editTitleValue,			    //* Make json {"title":titleValue}
-        completed : editCompleteValue,      //* Make json {"completed":completedValue}
-    }; 
-    
 }
-
-

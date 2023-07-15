@@ -25,7 +25,8 @@ function submitForm(iterHandler) {
 		title: inputValue			
 	};
 	const deleteData = inputValue									//* Delete data
-	const editData   = inputValue									//* Edit data
+	const rawEdit 	 = inputValue									//* Edit data	
+	const editData	 = rawEdit.toString()							//* Edit data
 	const showData	 = 2											//* Show data
 	
 	switch(iterHandler) {
@@ -39,7 +40,7 @@ function submitForm(iterHandler) {
 			editHandler(editData)
 			break;
 		case "Show":
-			createHandler(showData)
+			showHandler(showData)
 			break;
 	}
 }
@@ -66,21 +67,13 @@ function deleteHandler(deleteData) {
 	});
 }
 
+let editId = null;
 function editHandler(editData) {
-	fetch('/app/edit',  {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(editData)		
-	})
-	.catch(error => {
-		console.error('Error:', error);
-	})
-	window.location.replace("http://localhost:3000/app/edit/")
+	editId = editData
+	window.location.replace("http://localhost:3000/app/edit/" + editData)
 }
 
-function showHandler(deleteData) {
+function showHandler(showData) {
 	window.location.replace("http://localhost:3000/api/Todos/" + deleteData);
 }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <script src="/static/js/popup.js"></script>
+    <script src="/static/js/edit.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
@@ -10,7 +10,9 @@
     <form class="centerForm">
         <div>
             <label>Title</label> <br>     
-            <input type="text" id="titleEdit">
+            <input type="text" id="titleEdit"> 
+            <br><br><br>
+            <input type="checkbox" id="completeEdit" > Completed
         </div>
     </form>
     
@@ -19,7 +21,7 @@
     </form>
     <div style="text-align: center;">
         <button style="background-color: aliceblue; border-radius: 30px; padding: 10px;" 
-                type="button" name="Submit" onclick="inputHandler()" > Submit Edit
+                type="button" name="Submit" onclick="editTodoPage()" > Submit Edit
         </button>
     </div>
 </body>
