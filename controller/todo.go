@@ -36,7 +36,7 @@ func GetAllTodos(c *fiber.Ctx) error {
 			"error":   err.Error(),
 		})
 	}
-
+	
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"data": fiber.Map{
 			"todo": Todos,

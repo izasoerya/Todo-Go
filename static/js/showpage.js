@@ -1,74 +1,60 @@
-var tableData = [];
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.location.href.includes('localhost:3000/app/show')) {
+    // Call your function here
+    fetchDB();
+  }
+});
 
-    function createTable() {
-      var table = document.getElementById("myTable");
-      var columnsInput = document.getElementById("columns");
-      var rowsInput = document.getElementById("rows");
-      var columns = parseInt(columnsInput.value);
-      var rows = parseInt(rowsInput.value);
-
-      // Clear existing table
-      while (table.firstChild) {
-        table.removeChild(table.firstChild);
-      }
-
-      // Create table header
-      var headerRow = document.createElement("tr");
-      for (var i = 0; i < columns; i++) {
-        var th = document.createElement("th");
-        var input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.setAttribute("class", "header-input");
-        input.setAttribute("placeholder", "Column " + (i + 1));
-        th.appendChild(input);
-        headerRow.appendChild(th);
-      }
-      table.appendChild(headerRow);
-
-      // Create table rows
-      for (var i = 0; i < rows; i++) {
-        var rowData = [];
-        var row = document.createElement("tr");
-        for (var j = 0; j < columns; j++) {
-          var cell = document.createElement("td");
-          cell.setAttribute("contenteditable", "true");
-          cell.setAttribute("class", "editable-cell");
-          cell.addEventListener("input", updateCell);
-          rowData.push("");
-          row.appendChild(cell);
+function fetchDB() {
+    fetch('/api/todos')
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Request failed with status:', response.status);
         }
-        table.appendChild(row);
-        tableData.push(rowData);
-      }
-    }
+      })
+      .then(data => {
+        const todos = data.data.todo; // Access the 'todo' array from the response
+				tableHandler(todos);
+      })
+      .catch(error => {
+        console.error('Request failed:', error);
+      });
+}
+  
 
-    function updateCell(event) {
-      var rowIndex = event.target.parentNode.rowIndex - 1;
-      var columnIndex = event.target.cellIndex;
-      var value = event.target.textContent.trim();
-      updateData(rowIndex, columnIndex, value);
-    }
+function tableHandler(data) {
+	const table = document.createElement('table');
 
-    function updateData(row, col, value) {
-      tableData[row][col] = value;
-    }
+  // Create table header row
+  const headerRow = document.createElement('tr');
+  const headers = Object.keys(data[0]);
+  headers.forEach(header => {
+    const cell = document.createElement('th');
+    cell.textContent = header;
+    headerRow.appendChild(cell);
+  });
+  table.appendChild(headerRow);
 
-    function deleteRow(row) {
-      var table = document.getElementById("myTable");
-      table.deleteRow(row);
-      tableData.splice(row, 1);
-    }
+  // Create table rows
+  data.forEach(item => {
+    const row = document.createElement('tr');
+    Object.values(item).forEach(value => {
+      const cell = document.createElement('td');
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    table.appendChild(row);
+  });
 
-    function updateRow(row) {
-      var table = document.getElementById("myTable");
-      var rowData = tableData[row];
-      var cells = table.rows[row + 1].cells;
-      for (var i = 0; i < rowData.length; i++) {
-        var value = cells[i].textContent.trim();
-        rowData[i] = value;
-      }
-    }
+  // Add the table to the document body
+  document.body.appendChild(table);
+}
 
-    function displayData() {
-      console.log(tableData);
-    }
+function buttonBack() {
+	window.location.assign("http://localhost:3000/app");
+}
+
+
+

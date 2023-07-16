@@ -2,6 +2,7 @@ function buttonCreate() {submitForm("Create")}
 function buttonDelete() {submitForm("Delete")}
 function buttonEdit() 	{submitForm("Edit")	 }
 function buttonShow() 	{submitForm("Show")	 }
+function buttonBack() 	{submitForm("Back")  }
 
 function handleKeyDown(event) {
 	if (event.keyCode === 13 || event.key === 'Enter') {
@@ -19,7 +20,6 @@ function submitForm(iterHandler) {
 	const deleteData = inputValue									//* Delete data
 	const rawEdit 	 = inputValue									//* Edit data	
 	const editData	 = rawEdit.toString()							//* Edit data
-	const showData	 = 2											//* Show data
 	
 	switch(iterHandler) {
 		case "Create":
@@ -32,7 +32,10 @@ function submitForm(iterHandler) {
 			editHandler(editData)
 			break;
 		case "Show":
-			showHandler(showData)
+			showHandler()
+			break;
+		case "Back":
+			window.location.assign("http://localhost:3000/app");
 			break;
 	}
 }
@@ -60,11 +63,11 @@ function deleteHandler(deleteData) {
 }
 
 function editHandler(editData) {
-	window.location.replace("http://localhost:3000/app/edit/" + editData)
+	window.location.assign("http://localhost:3000/app/edit/" + editData)
 }
 
-function showHandler(showData) {
-	window.location.replace("http://localhost:3000/api/Todos/" + showData);
+function showHandler() {
+	window.location.assign("http://localhost:3000/app/show");
 }
 
   

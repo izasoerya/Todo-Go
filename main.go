@@ -46,6 +46,9 @@ func main() {
 	app.Get("/app/edit/:id", func(c *fiber.Ctx) error {				//* set editTodo.html in /app/edit
 		return c.Render("editTodo", fiber.Map{})
 	})
+	app.Get("/app/show", func(c *fiber.Ctx) error {					//* set all.html in /app/show
+		return c.Render("all", fiber.Map{})
+	})
 
 	err = app.Listen(":3000")
 	if err != nil {
